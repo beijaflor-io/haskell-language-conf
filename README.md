@@ -1,4 +1,6 @@
 # haskell-language-conf
+[![Hackage](https://img.shields.io/hackage/v/language-conf.svg?maxAge=2592000)](https://hackage.haskell.org/package/language-conf)
+- - -
 **`language-conf`** contains `.conf` (e.g. nginx configuration) parsers and
 pretty-printers for the Haskell programming language.
 
