@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:           language-conf
-version:        0.1.1.0
+version:        0.1.2.0
 synopsis:       Conf parsers and pretty-printers for the Haskell programming language.
 description:    @language-conf@ contains @.conf@ (e.g. nginx configuration) parsers and pretty-printers for the Haskell programming language.
                 "Data.Conf" exports all the API surface in the package.
