@@ -4,7 +4,7 @@ synopsis: Conf parsers and pretty-printers for the Haskell programming language.
 description: ! '@language-conf@ contains @.conf@ (e.g. nginx configuration)
   parsers and pretty-printers for the Haskell programming language.
 
-  "Data.Conf" export all the API surface in the package.
+  "Data.Conf" exports all the API surface in the package.
 
   "ConfFmt" is a @.conf@ file formatter that serves as an example; it''s
   built as @conffmt@ by the cabal configuration. You can see its''
