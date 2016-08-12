@@ -7,8 +7,6 @@ dependencies:
   cache_directories:
     - "~/.stack"
     - ".stack"
-    # - "cmake-3.2.2"
-    # - "vendor/libui/build"
   pre:
     - sudo apt-get update
     - wget -q -O- https://s3.amazonaws.com/download.fpcomplete.com/ubuntu/fpco.key | sudo apt-key add -

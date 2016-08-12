@@ -11,6 +11,6 @@ test: FORCE
 	stack test
 
 conffmt:
-	stack build --flag language-hcl:conffmt
+	stack build --flag language-conf:conffmt
 
 FORCE:
