@@ -15,6 +15,7 @@ maintainer: tacla.yamada@gmail.com
 copyright: Copyright (c) 2016 Pedro Tacla Yamada
 license: MIT
 github: beijaflor-io/haskell-language-conf
+extra-source-files: ./*.conf
 
 flags:
   conffmt:

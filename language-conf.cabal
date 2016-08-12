@@ -19,6 +19,10 @@ license-file:   LICENSE
 build-type:     Simple
 cabal-version:  >= 1.10
 
+extra-source-files:
+    ./default.conf
+    ./small.conf
+
 source-repository head
   type: git
   location: https://github.com/beijaflor-io/haskell-language-conf
