@@ -9,8 +9,17 @@ pretty-printers for the Haskell programming language.
 - `ConfFmt` is a `.conf` file formatter that serves as an example; it's built as
   `conffmt` by the cabal configuration
 
+- `FromConf` parses a `.conf` file and outputs its JSON or YAML representation
+- `ToConf` parses a JSON or YAML file and outputs its `.conf` representation
+
 For `hcl` parsers, see
 [**haskell-language-hcl**](https://github.com/beijaflor-io/haskell-language-hcl)
+
+## Install
+From source:
+```
+make install
+```
 
 ## Build & Test
 ```
@@ -26,6 +35,16 @@ make all
 ## Build `conffmt`
 ```
 make conffmt
+```
+
+## Build `fromconf`
+```
+make fromconf
+```
+
+## Build `toconf`
+```
+make toconf
 ```
 
 ## License
