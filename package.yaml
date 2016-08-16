@@ -30,6 +30,7 @@ library:
   - Data.Conf.PrettyPrint
   - Data.Conf.Types
   - Data.Conf.Internal
+  - Data.Conf.Aeson
   other-modules: []
   dependencies:
   - base >=4.8 && <5
@@ -42,6 +43,8 @@ library:
   - semigroups >=0.18.1
   - text >=1.2.2.1
   - unordered-containers
+  - vector
+  - aeson
 
 executables:
   conffmt:
@@ -73,4 +76,5 @@ tests:
     - pretty
     - semigroups >=0.18.1
     - text
+    - aeson
     - transformers >=0.4.2.0

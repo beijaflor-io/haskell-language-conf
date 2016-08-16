@@ -17,7 +17,7 @@ module Data.Conf
     , pPrintConf
     , runParser
       -- * Types
-    , Conf (..)
+    , Conf
     , ConfStatement (..)
     , Block (..)
     , Comment (..)
@@ -30,11 +30,17 @@ module Data.Conf
     , argument
       -- * Pretty-printer
     , Pretty(..)
-    , pPrint
+      -- * Aeson
+    , fromToJSON
+    , FromJSON(..)
+    , ToJSON(..)
     )
   where
 
+import           Data.Aeson
+import           Text.Megaparsec       (runParser)
+
+import           Data.Conf.Aeson
 import           Data.Conf.Internal
 import           Data.Conf.PrettyPrint
 import           Data.Conf.Types
-import           Text.Megaparsec       (runParser)
