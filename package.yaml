@@ -23,6 +23,16 @@ flags:
     manual: false
     default: false
 
+  fromconf:
+    description: Build the fromconf utility
+    manual: false
+    default: false
+
+  toconf:
+    description: Build the toconf utility
+    manual: false
+    default: false
+
 library:
   source-dirs: src
   exposed-modules:
@@ -49,7 +59,7 @@ library:
 executables:
   conffmt:
     main: ConfFmt.hs
-    source-dirs: src
+    source-dirs: bin
     dependencies:
     - base
     - text
@@ -58,6 +68,38 @@ executables:
     - pretty
     when:
     - condition: ! '!(flag(conffmt))'
+      buildable: false
+
+  fromconf:
+    main: FromConf.hs
+    source-dirs: bin
+    dependencies:
+    - base
+    - language-conf
+    - text
+    - bytestring
+    - megaparsec
+    - filepath
+    - aeson
+    - yaml
+    when:
+    - condition: ! '!(flag(fromconf))'
+      buildable: false
+
+  toconf:
+    main: ToConf.hs
+    source-dirs: bin
+    dependencies:
+    - base
+    - language-conf
+    - text
+    - bytestring
+    - megaparsec
+    - filepath
+    - aeson
+    - yaml
+    when:
+    - condition: ! '!(flag(toconf))'
       buildable: false
 
 tests:

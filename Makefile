@@ -3,6 +3,8 @@ all: FORCE
 	stack build
 	stack test
 	make conffmt
+	make fromconf
+	make toconf
 
 build: FORCE
 	stack build
@@ -10,7 +12,13 @@ build: FORCE
 test: FORCE
 	stack test
 
-conffmt:
+conffmt: FORCE
 	stack build --flag language-conf:conffmt
+
+fromconf: FORCE
+	stack build --flag language-conf:fromconf
+
+toconf: FORCE
+	stack build --flag language-conf:toconf
 
 FORCE:

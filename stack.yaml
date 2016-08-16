@@ -42,6 +42,7 @@ packages:
 extra-deps:
 - megaparsec-5.0.0
 - hspec-megaparsec-0.2.0
+- protolude-0.1.7
 
 # Override default flag values for local packages and extra-deps
 flags: {}
