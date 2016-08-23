@@ -21,7 +21,7 @@ main = do
                     let conf :: Aeson.Result Conf.Conf
                         conf = Aeson.fromJSON v
                     writeFile output $ show $ case conf of
-                        Aeson.Success c -> Conf.pPrint c
+                        Aeson.Success c -> Conf.pPrintConf c
                         Aeson.Error e -> error ("Tranformation failure: " <> e)
                 Nothing -> error ("Parse failure " <> fp)
         _ -> error "Usage: toconf <inputfile> <outputfile>"

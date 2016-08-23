@@ -7,6 +7,8 @@ Maintainer: tacla.yamada@gmail.com
 Stability: experimental
 Portability: unknown
 
+import Data.Char
+import Debug.Trace
 Pretty-printer for "Data.Conf". Declares a 'Pretty' instance for
 'ConfStatement'.
 -}
@@ -19,10 +21,13 @@ module Data.Conf.PrettyPrint
     )
   where
 
+import           Data.Char                      (isSpace)
 import           Data.Conf.Types
 import           Data.Text                      (Text)
 import qualified Data.Text                      as Text
 import           Text.PrettyPrint.HughesPJClass
+
+import           Debug.Trace
 
 -- | Pretty-prints a 'Conf' to a 'Doc'
 --
@@ -32,8 +37,18 @@ import           Text.PrettyPrint.HughesPJClass
 -- print (pPrintConf c)
 -- @
 --
+-- Because of https://github.com/haskell/pretty/issues/26, it's not easy to
+-- prevent trailing spaces while generating the output. This function patches
+-- it at the end so there're no trailing spaces.
+--
 -- See "Text.PrettyPrint"
-pPrintConf = pPrint :: Conf -> Doc
+pPrintConf :: Conf -> Doc
+pPrintConf c =
+    let d = pPrint c
+        ds = init (unlines (map stripEnd (lines (show d))))
+    in text ds
+  where
+    stripEnd = reverse . dropWhile isSpace . reverse
 
 instance Pretty ConfStatement where
     pPrint s = case s of

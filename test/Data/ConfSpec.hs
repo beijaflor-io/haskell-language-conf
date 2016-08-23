@@ -11,6 +11,23 @@ import           Text.Megaparsec
 
 spec :: Spec
 spec = do
+    describe "pPrintConf" $ do
+        it "#3 - pretty prints nested lines without trailing spaces" $ do
+            let Right inp = parse conf "" $ Text.unlines
+                      [ "http {"
+                      , "  listen 8989;"
+                      , ""
+                      , "  proxy_pass something;"
+                      , "}"
+                      ]
+            show (pPrintConf inp) `shouldBe` init (unlines
+                      [ "http {"
+                      , "  listen 8989;"
+                      , ""
+                      , "  proxy_pass something;"
+                      , "}"
+                      ])
+
     describe "comment" $
         it "parses a comment" $ do
             let inp = Text.unlines [ "# something here"
