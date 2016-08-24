@@ -1,3 +1,7 @@
+-- This file has been generated from package.yaml by hpack version 0.14.0.
+--
+-- see: https://github.com/sol/hpack
+
 name:           conffmt
 version:        0.2.2.0
 synopsis:       A .conf file formatter
@@ -9,6 +13,7 @@ author:         Pedro Tacla Yamada
 maintainer:     tacla.yamada@gmail.com
 copyright:      Copyright (c) 2016 Pedro Tacla Yamada
 license:        MIT
+license-file:   LICENSE
 build-type:     Simple
 cabal-version:  >= 1.10
 
