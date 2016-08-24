@@ -63,6 +63,7 @@ executables:
     dependencies:
     - base
     - text
+    - optparse-applicative
     - megaparsec
     - language-conf
     - pretty

@@ -74,6 +74,7 @@ executable conffmt
   build-depends:
       base
     , text
+    , optparse-applicative
     , megaparsec
     , language-conf
     , pretty
