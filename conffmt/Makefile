@@ -13,7 +13,7 @@ test: FORCE
 	stack test
 
 conffmt: FORCE
-	cd conffmt && stack build
+	stack build --flag language-conf:conffmt
 
 fromconf: FORCE
 	stack build --flag language-conf:fromconf

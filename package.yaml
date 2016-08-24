@@ -5,10 +5,7 @@ description: ! '@language-conf@ contains @.conf@ (e.g. nginx configuration)
   parsers and pretty-printers for the Haskell programming language.
 
   "Data.Conf" exports all the API surface in the package.
-
-  "ConfFmt" is a @.conf@ file formatter that serves as an example; it''s
-  built as @conffmt@ by the cabal configuration. You can see its''
-  source-code <https://github.com/beijaflor-io/language-hcl/src/ConfFmt.hs here>'
+'
 category: Data
 author: Pedro Tacla Yamada
 maintainer: tacla.yamada@gmail.com
@@ -18,11 +15,6 @@ github: beijaflor-io/haskell-language-conf
 extra-source-files: ./*.conf
 
 flags:
-  conffmt:
-    description: Build the conffmt utility
-    manual: false
-    default: false
-
   fromconf:
     description: Build the fromconf utility
     manual: false
@@ -57,20 +49,6 @@ library:
   - aeson
 
 executables:
-  conffmt:
-    main: ConfFmt.hs
-    source-dirs: bin
-    dependencies:
-    - base
-    - text
-    - optparse-applicative
-    - megaparsec
-    - language-conf
-    - pretty
-    when:
-    - condition: ! '!(flag(conffmt))'
-      buildable: false
-
   fromconf:
     main: FromConf.hs
     source-dirs: bin
