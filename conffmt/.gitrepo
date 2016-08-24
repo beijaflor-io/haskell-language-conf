@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = none
+	branch = master
+	commit = 1bd3e3de62cf81a66675a0af02c6e79e8d0eae27
+	parent = 0421def2fb999216ab7af74108705d3076a48b4f
+	cmdver = 0.3.0
