@@ -6,6 +6,6 @@
 [subrepo]
 	remote = git@github.com:beijaflor-io/conffmt
 	branch = master
-	commit = 1bd3e3de62cf81a66675a0af02c6e79e8d0eae27
-	parent = a8968bb6b852a9aca742cd26cf883e9575b8fde4
+	commit = a5cfc7b04a581b0923b6efdb8cabe94b9fcc344d
+	parent = 5e858238ffa751b146122647d65398edde06f537
 	cmdver = 0.3.0
