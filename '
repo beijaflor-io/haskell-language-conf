@@ -1,6 +1,6 @@
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE OverloadedStrings    #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 module Data.Conf.Aeson
   where
 
@@ -8,8 +8,7 @@ import           Control.Monad
 import           Data.Aeson
 import           Data.Aeson
 import           Data.Aeson.Types
-import           Data.Aeson.Key (fromText, toText)
-import           Data.Aeson.KeyMap (toHashMap)
+import           Data.Aeson.Key (fromText)
 import qualified Data.HashMap.Strict   as HashMap
 import qualified Data.Scientific       as Scientific
 import           Data.String
@@ -22,18 +21,18 @@ import           Data.Conf.Types
 fromToJSON :: ToJSON a => a -> Result Conf
 fromToJSON = fromJSON . toJSON
 
-instance {-# OVERLAPPING #-} FromJSON Conf where
+instance FromJSON Conf where
     parseJSON (Object obj) = do
-        let oList = HashMap.toList $ toHashMap obj
+        let oList = HashMap.toList obj
         forM oList $ \(k, v) ->
             case v of
                 o@(Object _) -> do
                     cs <- parseJSON o
-                    return $ ConfStatementBlock (Block (Text.words $ toText k) cs)
+                    return $ ConfStatementBlock (Block (Text.words k) cs)
                 (Array vs) -> return $
-                    ConfStatementExpression (Expression (toText k) (map toExpressionValue (Vector.toList vs)))
+                    ConfStatementExpression (Expression k (map toExpressionValue (Vector.toList vs)))
                 value -> return $
-                    ConfStatementExpression (Expression (toText k) [toExpressionValue value])
+                    ConfStatementExpression (Expression k [toExpressionValue value])
           where
             toExpressionValue (Number oc) =
                 case Scientific.floatingOrInteger oc of
@@ -45,13 +44,13 @@ instance {-# OVERLAPPING #-} FromJSON Conf where
 
     parseJSON invalid = typeMismatch "Conf" invalid
 
-instance {-# OVERLAPPING #-} ToJSON Conf where
+instance ToJSON Conf where
     toJSON cs = object ps
       where
         ps = concatMap toPair cs
         toPair (ConfStatementExpression (Expression e [v])) = [ fromText e .= String v ]
         toPair (ConfStatementExpression (Expression e vs)) = [ fromText e .= toJSON vs ]
         toPair (ConfStatementBlock (Block [k] css)) = [ fromText k .= toJSON css ]
-        toPair (ConfStatementBlock (Block ks css)) = [ fromText (Text.unwords ks) .= toJSON css ]
+        toPair (ConfStatementBlock (Block ks css)) = [ fromText $ Text.unwords ks .= toJSON css ]
         toPair ConfStatementEmptyLine = []
         toPair (ConfStatementComment _) = []

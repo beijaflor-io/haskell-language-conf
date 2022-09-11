@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Data.Conf.Internal
   where
 
@@ -8,7 +9,11 @@ import           Data.Maybe           (catMaybes, fromMaybe)
 import           Data.Text            (Text)
 import qualified Data.Text            as Text
 import           Text.Megaparsec
-import           Text.Megaparsec.Text
+import           Text.Megaparsec.Char
+import           Data.Void (Void)
+
+-- define the parser myself
+type Parser = Parsec Void Text
 
 -- | The .conf parser
 --
@@ -52,7 +57,7 @@ comment = label "comment" $ do
     _ <- string "#"
     -- Comments always start with a space
     c <- fromMaybe ' ' <$> optional (char ' ')
-    Comment . Text.pack . (c:) <$> manyTill anyChar eol
+    Comment . Text.pack . (c:) <$> manyTill printChar eol
 
 block :: Parser Block
 block = label "block" $ do
