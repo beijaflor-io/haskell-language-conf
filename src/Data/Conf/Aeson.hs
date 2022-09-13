@@ -31,9 +31,9 @@ instance {-# OVERLAPPING #-} FromJSON Conf where
                     cs <- parseJSON o
                     return $ ConfStatementBlock (Block (Text.words $ toText k) cs)
                 (Array vs) -> return $
-                    ConfStatementExpression (Expression (toText k) (map toExpressionValue (Vector.toList vs)))
+                    ConfStatementExpression (Expression (toText k) (map toExpressionValue (Vector.toList vs))) Nothing
                 value -> return $
-                    ConfStatementExpression (Expression (toText k) [toExpressionValue value])
+                    ConfStatementExpression (Expression (toText k) [toExpressionValue value]) Nothing
           where
             toExpressionValue (Number oc) =
                 case Scientific.floatingOrInteger oc of
@@ -49,8 +49,8 @@ instance {-# OVERLAPPING #-} ToJSON Conf where
     toJSON cs = object ps
       where
         ps = concatMap toPair cs
-        toPair (ConfStatementExpression (Expression e [v])) = [ fromText e .= String v ]
-        toPair (ConfStatementExpression (Expression e vs)) = [ fromText e .= toJSON vs ]
+        toPair (ConfStatementExpression (Expression e [v]) _ ) = [ fromText e .= String v ]
+        toPair (ConfStatementExpression (Expression e vs) _ ) = [ fromText e .= toJSON vs ]
         toPair (ConfStatementBlock (Block [k] css)) = [ fromText k .= toJSON css ]
         toPair (ConfStatementBlock (Block ks css)) = [ fromText (Text.unwords ks) .= toJSON css ]
         toPair ConfStatementEmptyLine = []

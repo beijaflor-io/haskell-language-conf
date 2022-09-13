@@ -10,7 +10,7 @@ data ConfStatement = ConfStatementComment Comment
                    | ConfStatementEmptyLine
                    -- ^ We store empty lines while parsing so we can
                    -- reconstruct the document when pretty-printing
-                   | ConfStatementExpression Expression
+                   | ConfStatementExpression Expression (Maybe Comment)
   deriving(Eq, Show)
 
 data Block = Block [Text] [ConfStatement]

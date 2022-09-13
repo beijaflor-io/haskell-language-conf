@@ -26,17 +26,20 @@ conf = label "conf" $
 skipSpace :: Parser ()
 skipSpace = void $ many spaceChar
 
+skipRealSpace :: Parser ()
+skipRealSpace = void $ many $ char ' '
+
 confStatement :: Parser ConfStatement
 confStatement = label "confStatement" $
     try (ConfStatementComment <$> comment)
     <|> try (ConfStatementBlock <$> block)
-    <|> ConfStatementExpression <$> expression
+    <|> ConfStatementExpression <$> expression <*> optional (skipRealSpace >> comment)
 
 confStatementLines :: Parser [ConfStatement]
 confStatementLines = do
     skipSpace
     s <- confStatement
-    -- If we're after a comment, the parser consumed a EOL. Anywhere else we
+    -- If we're after a comment or an expression, the parser consumed a EOL. Anywhere else we
     -- should look for two ends of lines repeated (the end of the current
     -- expression, plus an empty one)
     me <- optional $ try $ case s of

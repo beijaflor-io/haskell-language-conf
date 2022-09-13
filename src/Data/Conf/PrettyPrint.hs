@@ -60,8 +60,10 @@ instance Pretty ConfStatement where
             thsep ks <+> "{"
                $+$ nest 2 (pPrintList (PrettyLevel 0) ss) $+$
             "}"
-        ConfStatementExpression (Expression t ts) ->
+        ConfStatementExpression (Expression t ts) Nothing ->
             ttext t <+> thsep ts PPC.<> ";"
+        ConfStatementExpression (Expression t ts) (Just (Comment c)) ->
+            ttext t <+> thsep ts PPC.<> ";" <+> "#" PPC.<> ttext c
     pPrintList _ ss = foldl ($+$) empty (map pPrint ss)
 
 thsep :: [Text] -> Doc
