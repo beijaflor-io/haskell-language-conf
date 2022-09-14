@@ -26,6 +26,7 @@ import           Data.Conf.Types
 import           Data.Text                      (Text)
 import qualified Data.Text                      as Text
 import           Text.PrettyPrint.HughesPJClass
+import qualified Text.PrettyPrint.HughesPJClass as PPC
 
 import           Debug.Trace
 
@@ -54,13 +55,15 @@ instance Pretty ConfStatement where
     pPrint s = case s of
         ConfStatementEmptyLine -> text ""
         ConfStatementComment (Comment c) ->
-            "#" <> ttext c
+            "#" PPC.<> ttext c
         ConfStatementBlock (Block ks ss) ->
             thsep ks <+> "{"
                $+$ nest 2 (pPrintList (PrettyLevel 0) ss) $+$
             "}"
-        ConfStatementExpression (Expression t ts) ->
-            ttext t <+> thsep ts <> ";"
+        ConfStatementExpression (Expression t ts) Nothing ->
+            ttext t <+> thsep ts PPC.<> ";"
+        ConfStatementExpression (Expression t ts) (Just (Comment c)) ->
+            ttext t <+> thsep ts PPC.<> ";" <+> "#" PPC.<> ttext c
     pPrintList _ ss = foldl ($+$) empty (map pPrint ss)
 
 thsep :: [Text] -> Doc

@@ -16,11 +16,11 @@ spec = do
                              ]
             fromJSON inp `shouldBe`
                 Success [ ConfStatementExpression (Expression "hello"
-                                                              [ "world" ])
+                                                              [ "world" ]) Nothing
                         , ConfStatementBlock (Block [ "object" ]
                                                     [ ConfStatementExpression (Expression "here"
                                                                                           [ "8888"
-                                                                                          ])
+                                                                                          ]) Nothing
                                                     ])
                         ]
 
@@ -32,17 +32,17 @@ spec = do
                 Success [ ConfStatementBlock (Block [ "location", "/" ]
                                                     [ ConfStatementExpression (Expression "here"
                                                                                           [ "8888"
-                                                                                          ])
+                                                                                          ]) Nothing
                                                     ])
                         ]
 
     describe "toValue" $ do
         it "should convert objects to ConfStatements" $ do
-            let inp = [ ConfStatementExpression (Expression "hello" [ "world" ])
+            let inp = [ ConfStatementExpression (Expression "hello" [ "world" ]) Nothing
                       , ConfStatementBlock (Block [ "object" ]
                                                   [ ConfStatementExpression (Expression "here"
                                                                                         [ "8888"
-                                                                                        ])
+                                                                                        ]) Nothing
                                                   ])
                       ]
             toJSON inp `shouldBe`
@@ -54,7 +54,7 @@ spec = do
             let inp = [ ConfStatementBlock (Block [ "location", "/" ]
                                                   [ ConfStatementExpression (Expression "here"
                                                                                         [ "8888"
-                                                                                        ])
+                                                                                        ]) Nothing
                                                   ])
                       ]
             toJSON inp `shouldBe`

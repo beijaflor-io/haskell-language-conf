@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Data.Conf.Internal
   where
 
@@ -8,7 +9,11 @@ import           Data.Maybe           (catMaybes, fromMaybe)
 import           Data.Text            (Text)
 import qualified Data.Text            as Text
 import           Text.Megaparsec
-import           Text.Megaparsec.Text
+import           Text.Megaparsec.Char
+import           Data.Void (Void)
+
+-- define the parser myself
+type Parser = Parsec Void Text
 
 -- | The .conf parser
 --
@@ -21,17 +26,20 @@ conf = label "conf" $
 skipSpace :: Parser ()
 skipSpace = void $ many spaceChar
 
+skipRealSpace :: Parser ()
+skipRealSpace = void $ many $ char ' '
+
 confStatement :: Parser ConfStatement
 confStatement = label "confStatement" $
     try (ConfStatementComment <$> comment)
     <|> try (ConfStatementBlock <$> block)
-    <|> ConfStatementExpression <$> expression
+    <|> ConfStatementExpression <$> expression <*> optional (skipRealSpace >> comment)
 
 confStatementLines :: Parser [ConfStatement]
 confStatementLines = do
     skipSpace
     s <- confStatement
-    -- If we're after a comment, the parser consumed a EOL. Anywhere else we
+    -- If we're after a comment or an expression, the parser consumed a EOL. Anywhere else we
     -- should look for two ends of lines repeated (the end of the current
     -- expression, plus an empty one)
     me <- optional $ try $ case s of
@@ -52,7 +60,7 @@ comment = label "comment" $ do
     _ <- string "#"
     -- Comments always start with a space
     c <- fromMaybe ' ' <$> optional (char ' ')
-    Comment . Text.pack . (c:) <$> manyTill anyChar eol
+    Comment . Text.pack . (c:) <$> manyTill printChar eol
 
 block :: Parser Block
 block = label "block" $ do
