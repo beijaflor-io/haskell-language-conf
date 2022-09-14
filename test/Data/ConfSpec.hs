@@ -53,8 +53,19 @@ spec = do
                                    , "}"
                                    ]
             parse block "" inp `shouldParse` Block ["http"]
-                                                   [ ConfStatementExpression (Expression "listen" ["8989"])
-                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                   [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
+                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
+                                                   ]
+
+        it "parses a block with inline comment" $ do
+            let inp = Text.unlines [ "http {"
+                                   , "  listen 8989; # an inline comment"
+                                   , "  proxy_pass something;"
+                                   , "}"
+                                   ]
+            parse block "" inp `shouldParse` Block ["http"]
+                                                   [ ConfStatementExpression (Expression "listen" ["8989"]) (Just $ Comment " an inline comment")
+                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                    ]
 
         it "parses a nested block" $ do
@@ -67,7 +78,7 @@ spec = do
             parse block "" inp `shouldParse` Block ["http"]
                                                    [ ConfStatementBlock (Block
                                                      ["location", "/"]
-                                                     [ConfStatementExpression (Expression "proxy_pass" ["something"])])
+                                                     [ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing])
                                                    ]
 
         it "parses empty lines" $ do
@@ -78,9 +89,9 @@ spec = do
                                    , "}"
                                    ]
             parse block "" inp `shouldParse` Block ["http"]
-                                                   [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                   [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                    , ConfStatementEmptyLine
-                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                    ]
 
         it "parses skips more than one empty line" $ do
@@ -92,9 +103,9 @@ spec = do
                                    , "}"
                                    ]
             parse block "" inp `shouldParse` Block ["http"]
-                                                   [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                   [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                    , ConfStatementEmptyLine
-                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                    ]
 
         it "ignores one trailing line" $ do
@@ -107,9 +118,9 @@ spec = do
                                    , ""
                                    ]
             parse block "" inp `shouldParse` Block ["http"]
-                                                   [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                   [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                    , ConfStatementEmptyLine
-                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                    ]
 
         it "ignores multiple trailing lines" $ do
@@ -124,9 +135,9 @@ spec = do
                                    , ""
                                    ]
             parse block "" inp `shouldParse` Block ["http"]
-                                                   [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                   [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                    , ConfStatementEmptyLine
-                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                   , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                    ]
 
     describe "conf" $ do
@@ -148,9 +159,9 @@ spec = do
                                    ]
             parse conf "" inp `shouldParse` [ ConfStatementBlock $ Block
                                                 ["http"]
-                                                [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                 , ConfStatementEmptyLine
-                                                , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                 ]
                                             ]
 
@@ -169,9 +180,9 @@ spec = do
                                    ]
             parse conf "" inp `shouldParse` [ ConfStatementBlock $ Block
                                                 ["http"]
-                                                [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                 , ConfStatementEmptyLine
-                                                , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                 ]
                                             ]
 
@@ -188,9 +199,9 @@ spec = do
                                    ]
             parse conf "" inp `shouldParse` [ ConfStatementBlock $ Block
                                                 ["http"]
-                                                [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                 , ConfStatementEmptyLine
-                                                , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                 ]
                                             ]
 
@@ -211,8 +222,8 @@ spec = do
                                             , ConfStatementEmptyLine
                                             , ConfStatementBlock $ Block
                                                 ["http"]
-                                                [ ConfStatementExpression (Expression "listen" ["8989"])
+                                                [ ConfStatementExpression (Expression "listen" ["8989"]) Nothing
                                                 , ConfStatementEmptyLine
-                                                , ConfStatementExpression (Expression "proxy_pass" ["something"])
+                                                , ConfStatementExpression (Expression "proxy_pass" ["something"]) Nothing
                                                 ]
                                             ]
